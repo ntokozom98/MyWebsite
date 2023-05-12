@@ -1,0 +1,279 @@
+import tkinter as tk
+from tkinter import ttk, messagebox
+import openpyxl
+import pyodbc
+from tkcalendar import DateEntry
+
+i = 1
+
+
+def load_data():
+    my_conn1 = pyodbc.connect('Driver={SQL Server};'
+                              'Server=UNKOWN-DEVICE;'
+                              'Database=FINANCE_DB;'
+                              'Trusted_Connection=yes;')
+
+    r_set = my_conn1.execute('''SELECT ClassID
+      ,Transaction_Date
+      ,Transaction_ID
+      ,Amount
+      ,Description_A
+      ,Description_B
+      ,Classification_A
+      ,Classification_B
+      ,EntryType
+      ,IncomeType
+      ,IncomeSubCat
+      ,ExpenseType
+      ,Frequency from Transactions ''')
+    for dt in r_set:
+        treeview.insert("", 'end',
+                        values=(
+                            dt[0], dt[1], dt[2], dt[3], dt[4], dt[5], dt[6], dt[7], dt[8], dt[9], dt[10], dt[11],
+                            dt[12]))
+
+
+connection = pyodbc.connect('Driver={SQL Server};'
+                            'Server=UNKOWN-DEVICE;'
+                            'Database=FINANCE_DB;'
+                            'Trusted_Connection=yes;')
+
+
+def insert_row():
+    # create get for all my columns
+    global i
+    i = i + 1
+    # Insert row into treeview
+    treeview.insert('', 0, values=(i, ClassID
+                                   , Transaction_Date
+                                   , Transaction_ID
+                                   , Amount
+                                   , Description_A
+                                   , Description_B
+                                   , Classification_A
+                                   , Classification_B
+                                   , EntryType
+                                   , IncomeType
+                                   , IncomeSubCat
+                                   , ExpenseType
+                                   , Frequency))
+
+    # Clear the values
+    ClassID.delete(0, "end")
+    Transaction_Date.delete(0, "end")
+    Transaction_ID.delete(0, "end")
+    Amount.delete(0, "end")
+    Description_A.delete(0, "end")
+    Description_B.delete(0, "end")
+    Classification_A.delete(0, "end")
+    Classification_B.delete(0, "end")
+    EntryType.delete(0, "end")
+    IncomeType.delete(0, "end")
+    IncomeSubCat.delete(0, "end")
+    ExpenseType.delete(0, "end")
+    Frequency.delete(0, "end")
+
+
+connection2 = pyodbc.connect('Driver={SQL Server};'
+                             'Server=UNKOWN-DEVICE;'
+                             'Database=FINANCE_DB;'
+                             'Trusted_Connection=yes;')
+
+
+def edit():  # update record
+    try:
+        data = (ClassID.get(), Transaction_Date.get(),
+                Transaction_ID.get(), Amount.get(), Description_A.get(),
+                Description_B.get()
+                , Classification_A.get(),
+                Classification_B.get(), EntryType.get(), IncomeType.get()
+                , IncomeSubCat.get(), ExpenseType.get(),
+                Frequency.get())
+        id = connection2.execute("""UPDATE student SET ClassID=%s
+          ,Transaction_Date=%s
+          ,Transaction_ID=%s
+          ,Amount=%s
+          ,Description_A=%s
+          ,Description_B=%s
+          ,Classification_A=%s
+          ,Classification_B=%s
+          ,EntryType=%s
+          ,IncomeType=%s
+          ,IncomeSubCat=%s
+          ,ExpenseType=%sa
+          ,Frequency=%s WHERE id=%s""", data)
+        print("Row updated  = ", id.rowcount)
+    except pyodbc as e:
+
+        load_data()
+
+
+root = tk.Tk()
+
+style = ttk.Style(root)
+root.tk.call("source", "forest-light.tcl")
+root.tk.call("source", "forest-dark.tcl")
+style.theme_use("forest-light")
+
+Entrycombo_list = ['Expense', 'Income']
+
+Inccombo_list = ['Fundraiser', 'Offerings', 'Tithes', 'Tithes', 'Speedpoint Tithes', 'Freewill Offering',
+                 'Speedpoint Offering', 'Daveland Tithes', 'Daveland Offering', 'Crown Mines Tithes',
+                 'Crown Mines Offering', 'Interest', 'Dividends', 'Rock', 'Pimvile and Surbubs', 'Power Station',
+                 'Mlamlankunzi', 'Mighty West', 'Mzimhlophe', 'Daveland', 'Mothers', 'Fathers', 'Youth', 'Girls',
+                 'Sunday School', 'Choir']
+
+Expcombo_list = ['Employees Wages', 'RCC', 'Insurance', 'Water and Lights', 'Vehicle Expense', 'Telephone and Data',
+                 'Stationary', 'Transport', 'Tea&Cleaning', 'Bank charges', 'Fuel', 'SoundTech', 'Security',
+                 'Maitanance', 'Entertainment', 'DSTV', 'Outreach', 'Davland', 'Crown Mines', 'Open Air',
+                 'Sunday School', 'Mother', 'Fathers', 'Youth', 'Choir', 'Safrican', 'Confress']
+
+Freqcombo_list = ["Monthly", "Weekly"]
+
+Catcombo_list = ["Group 1", "Group 2"]
+
+frame = ttk.Frame(root)
+frame.pack()
+
+widgets_frame = ttk.LabelFrame(frame, text="Insert Row")
+widgets_frame.grid(row=0, column=0, padx=20, pady=10)
+# 1
+# 2
+ClassID = ttk.Entry(widgets_frame, width=20)
+ClassID.insert(0, "ClassID")
+ClassID.bind("<FocusIn>", lambda e: ClassID.delete('0', 'end'))
+ClassID.grid(row=0, column=0, padx=5, pady=(0, 5), sticky="ew")
+
+# 3
+ttk.LabelFrame(widgets_frame, text="Transaction_Date")
+Transaction_Date = DateEntry(widgets_frame, width=16, background="magenta3", foreground="white", bd=2,
+                             date_pattern="yyyy-mm-dd")
+Transaction_Date.grid(row=0, column=1, padx=5, pady=(0, 5), sticky="ew")
+
+# 4
+Transaction_ID = ttk.Entry(widgets_frame)
+Transaction_ID.insert(0, "Transaction_ID*")
+Transaction_ID.bind("<FocusIn>", lambda e: Transaction_ID.delete('0', 'end'))
+Transaction_ID.grid(row=0, column=2, padx=5, pady=(0, 5), sticky="ew")
+
+# 5
+Amount = ttk.Entry(widgets_frame)
+Amount.insert(0, "Amount")
+Amount.bind("<FocusIn>", lambda e: Amount.delete('0', 'end'))
+Amount.grid(row=0, column=3, padx=5, pady=(0, 5), sticky="ew")
+
+# 6
+Description_A = ttk.Entry(widgets_frame)
+Description_A.insert(0, "Description_A")
+Description_A.bind("<FocusIn>", lambda e: Description_A.delete('0', 'end'))
+Description_A.grid(row=0, column=4, padx=5, pady=(0, 5), sticky="ew")
+
+# 7
+Description_B = ttk.Entry(widgets_frame)
+Description_B.insert(0, "Description_B(required)")
+Description_B.bind("<FocusIn>", lambda e: Description_B.delete('0', 'end'))
+Description_B.grid(row=0, column=5, padx=5, pady=(0, 5), sticky="ew")
+
+# 8
+Classification_A = ttk.Entry(widgets_frame)
+Classification_A.insert(0, "Classification_A")
+Classification_A.bind("<FocusIn>", lambda e: Classification_A.delete('0', 'end'))
+Classification_A.grid(row=1, column=0, padx=5, pady=(0, 5), sticky="ew")
+
+# 8 #IncomeType	IncomeSubCat	ExpenseType 	Frequency
+Classification_B = ttk.Entry(widgets_frame)
+Classification_B.insert(0, "Classification_B")
+Classification_B.bind("<FocusIn>", lambda e: Classification_B.delete('0', 'end'))
+Classification_B.grid(row=1, column=1, padx=5, pady=(0, 5), sticky="ew")
+# 10
+EntryType = ttk.Combobox(widgets_frame, values=Entrycombo_list)
+EntryType.current(0)
+EntryType.grid(row=1, column=2, padx=5, pady=5, sticky="ew")
+
+# 10
+IncomeType = ttk.Combobox(widgets_frame, values=Inccombo_list)
+IncomeType.current(0)
+IncomeType.grid(row=1, column=3, padx=5, pady=5, sticky="ew")
+
+# 10
+ExpenseType = ttk.Combobox(widgets_frame, values=Expcombo_list)
+ExpenseType.current(0)
+ExpenseType.grid(row=1, column=4, padx=5, pady=5, sticky="ew")
+
+# 10
+Frequency = ttk.Combobox(widgets_frame, values=Freqcombo_list)
+Frequency.current(0)
+Frequency.grid(row=1, column=5, padx=5, pady=5, sticky="ew")
+
+# 11
+IncomeSubCat = ttk.Combobox(widgets_frame, values=Catcombo_list)
+IncomeSubCat.current(0)
+IncomeSubCat.grid(row=2, column=0, padx=5, pady=5, sticky="ew")
+
+button = ttk.Button(widgets_frame, text="Insert", command=insert_row)
+button.grid(row=2, column=1, padx=5, pady=5, sticky="nsew")
+
+button2 = ttk.Button(widgets_frame, text="Edit Record", command=edit)
+button2.grid(row=2, column=2, padx=5, pady=5, sticky="nsew")
+
+
+def delete():
+    # Get selected item to Delete
+    selected_item = treeview.selection()[0]
+    treeview.delete(selected_item)
+    messagebox.showinfo("Info", "Record Deleted")
+
+
+button = ttk.Button(widgets_frame, text="Delete Record", command=delete)
+button.grid(row=2, column=3, padx=5, pady=5, sticky="nsew")
+
+# button2 = ttk.Button(widgets_frame, text="Upload File", command=fileopen)
+# button2.grid(row=4, column=0, padx=5, pady=5, sticky="nsew")
+
+separator = ttk.Separator(widgets_frame)
+separator.grid(row=5, column=0, padx=(20, 10), pady=10, sticky="ew")
+
+treeFrame = ttk.Frame(frame)
+treeFrame.grid(row=6, column=0, pady=10)
+treeScroll = ttk.Scrollbar(treeFrame)
+treeScroll.pack(side="right", fill="y")
+
+cols = ('ClassID', 'Transaction_Date', 'Transaction_ID', 'Amount', 'Description_A', 'Description_B',
+        'Classification_A', 'Classification_B', 'EntryType', 'IncomeType', 'IncomeSubCat', 'ExpenseType', 'Frequency')
+treeview = ttk.Treeview(treeFrame, show="headings",
+                        yscrollcommand=treeScroll.set, columns=cols, height=13)
+# Defining heading
+treeview['show'] = 'headings'
+treeview.column('ClassID', width=50)
+treeview.column('Transaction_Date', width=100)
+treeview.column('Transaction_ID', width=50)
+treeview.column('Amount', width=50)
+treeview.column('Description_A', width=100)
+treeview.column('Description_B', width=100)
+treeview.column('Classification_A', width=100)
+treeview.column('Classification_B', width=100)
+treeview.column('EntryType', width=100)
+treeview.column('IncomeType', width=100)
+treeview.column('IncomeSubCat', width=100)
+treeview.column('ExpenseType', width=50)
+treeview.column('Frequency', width=50)
+
+treeview.heading("0", text="ClassID")
+treeview.heading("1", text="Transaction_Date")
+treeview.heading("2", text="Transaction_ID")
+treeview.heading("3", text="Amount")
+treeview.heading("4", text="Description_A")
+treeview.heading("5", text="Description_B")
+treeview.heading("6", text="Classification_A")
+treeview.heading("7", text="Classification_B")
+treeview.heading("8", text="EntryType")
+treeview.heading("9", text="IncomeType")
+treeview.heading("10", text="IncomeSubCat")
+treeview.heading("11", text="ExpenseType")
+treeview.heading("12", text="Frequency")
+
+treeview.pack()
+treeScroll.config(command=treeview.yview)
+load_data()
+
+root.mainloop()
