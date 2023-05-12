@@ -1,0 +1,20 @@
+------ALL TRANSACTIONS
+
+CREATE TABLE Transactions_All (
+ID int IDENTITY(1,1),
+ClassID VARCHAR(250) NULL,
+Transaction_Date date NULL,
+Transaction_ID VARCHAR(250) NULL,
+Amount VARCHAR(250) NULL,
+Description_A VARCHAR(250) NULL,
+Description_B VARCHAR(250) NULL,
+Classification_A VARCHAR(250) NULL,
+Classification_B VARCHAR(250) NULL,
+EntryType VARCHAR(250) NULL,
+IncomeType VARCHAR(250) NULL,
+IncomeSubCat VARCHAR(250) NULL,
+ExpenseType VARCHAR(250) NULL,
+Frequency VARCHAR(250) NULL)
+
+
+-------
