@@ -18,3 +18,63 @@ Frequency VARCHAR(250) NULL)
 
 
 -------
+INCOME TYPE
+--------------
+Fundraiser
+Offerings
+Tithes
+Tithes
+Speedpoint Tithes
+Freewill Offering
+Speedpoint Offering
+Daveland Tithes
+Daveland Offering
+Crown Mines Tithes
+Crown Mines Offering
+Interest
+Dividends
+Rock
+Pimvile and Surbubs
+Power Station
+Mlamlankunzi
+Mighty West
+Mzimhlophe
+Daveland
+Mothers
+Fathers
+Youth
+Girls
+Sunday School
+Choir
+
+
+-------
+ExpenseType
+---------------------
+Employees Wages
+RCC
+Insurance
+Water and Lights
+Vehicle Expense
+Telephone and Data
+Stationary
+Transport
+Tea&Cleaning
+Bank charges
+Fuel
+SoundTech
+Security
+Maitanance
+Entertainment
+DSTV
+Outreach
+Davland
+Crown Mines
+Open Air
+Sunday School
+Mother
+Fathers
+Youth
+Choir
+Safrican
+Confress
