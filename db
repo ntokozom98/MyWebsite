@@ -78,3 +78,23 @@ Youth
 Choir
 Safrican
 Confress
+
+------------------
+
+Entrycombo_list = ['Expense', 'Income']
+
+Inccombo_list = ['Fundraiser', 'Offerings', 'Tithes', 'Tithes', 'Speedpoint Tithes', 'Freewill Offering',
+                 'Speedpoint Offering', 'Daveland Tithes', 'Daveland Offering', 'Crown Mines Tithes',
+                 'Crown Mines Offering', 'Interest', 'Dividends', 'Rock', 'Pimvile and Surbubs', 'Power Station',
+                 'Mlamlankunzi', 'Mighty West', 'Mzimhlophe', 'Daveland', 'Mothers', 'Fathers', 'Youth', 'Girls',
+                 'Sunday School', 'Choir']
+
+Expcombo_list = ['Employees Wages', 'RCC', 'Insurance', 'Water and Lights', 'Vehicle Expense', 'Telephone and Data',
+                 'Stationary', 'Transport', 'Tea&Cleaning', 'Bank charges', 'Fuel', 'SoundTech', 'Security',
+                 'Maitanance', 'Entertainment', 'DSTV', 'Outreach', 'Davland', 'Crown Mines', 'Open Air',
+                 'Sunday School', 'Mother', 'Fathers', 'Youth', 'Choir', 'Safrican', 'Confress']
+
+Freqcombo_list = ["Monthly", "Weekly"]
+
+Catcombo_list = ["Group 1", "Group 2"]
+
