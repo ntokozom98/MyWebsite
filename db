@@ -1,4 +1,4 @@
-------ALL TRANSACTIONS https://drive.google.com/drive/folders/1xMI7NdIHM8XU6klyPiOlS_YBEYsIbH91?usp=share_link
+------ALL TRANSACTIONS https://drive.google.com/file/d/18t_eFNUJqNOecV50xReMd2dXpW0UrBME/view?usp=share_link
 
 CREATE TABLE Transactions_All (
 ID int IDENTITY(1,1),
