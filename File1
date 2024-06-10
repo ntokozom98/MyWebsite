@@ -1,0 +1,45 @@
+import tkinter as tk
+from tkinter import messagebox
+import ctypes
+
+# Handling high DPI settings on Windows
+ctypes.windll.shcore.SetProcessDpiAwareness(1)
+
+def show_message(department):
+    messagebox.showinfo("Selection", f"You clicked on {department}!")
+
+class BackOfficeApp(tk.Tk):
+    def __init__(self):
+        super().__init__()
+        self.title("Back Office Management System")
+        self.geometry("800x600")
+        self.configure(bg="lightgrey")
+        
+        # Making the window full screen
+        self.attributes('-fullscreen', True)
+        
+        # Create main frame
+        main_frame = tk.Frame(self, bg="lightgrey")
+        main_frame.pack(expand=True, fill='both')
+        
+        # Create buttons for Admin, Finance, and Client Services
+        btn_admin = tk.Button(main_frame, text="Admin", font=('Arial', 24), width=20, height=3,
+                              command=lambda: show_message("Admin"))
+        btn_finance = tk.Button(main_frame, text="Finance", font=('Arial', 24), width=20, height=3,
+                                command=lambda: show_message("Finance"))
+        btn_client_services = tk.Button(main_frame, text="Client Services", font=('Arial', 24), width=20, height=3,
+                                        command=lambda: show_message("Client Services"))
+        
+        # Placing the buttons using grid layout
+        main_frame.grid_rowconfigure(0, weight=1)
+        main_frame.grid_rowconfigure(1, weight=1)
+        main_frame.grid_rowconfigure(2, weight=1)
+        main_frame.grid_columnconfigure(0, weight=1)
+        
+        btn_admin.grid(row=0, column=0, padx=20, pady=20)
+        btn_finance.grid(row=1, column=0, padx=20, pady=20)
+        btn_client_services.grid(row=2, column=0, padx=20, pady=20)
+
+if __name__ == "__main__":
+    app = BackOfficeApp()
+    app.mainloop()
