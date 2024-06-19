@@ -49,8 +49,8 @@ class App(tk.Tk):
         self.indicators = []
 
         for index, (text, command) in enumerate(buttons_info):
-            btn = tk.Button(self.menu_frame, text=text, font=("Bold", 18), fg="white", bd=0, bg="#031f3f",
-                            padx=56, activebackground="#124edb", command=command)
+            btn = tk.Button(self.menu_frame, text=text, font=("Bold", 18), fg="white", bd=0, bg="grey",
+                            width=15, height=2, activebackground="#124edb", command=command)
             btn.grid(row=index, column=1, pady=20, padx=(10, 0), sticky="w")
 
             indicator = tk.Label(self.menu_frame, text="", bg="#124e6b")
@@ -77,18 +77,21 @@ class App(tk.Tk):
             indicator.config(bg="#124e6b")
 
     def show_page(self, page):
+        header = tk.Label(self.main_frame, text=f"{page.capitalize()} Page", font=("Arial", 24), bg="white", fg="red")
+        header.pack(pady=20)
+        
         if page == "main":
-            main_page = tk.Label(self.main_frame, text="Main Page", font=("Arial", 24), bg="white")
-            main_page.pack(pady=20)
+            content = tk.Label(self.main_frame, text="This is the Main Page content", font=("Arial", 18), bg="white")
+            content.pack(pady=20)
         elif page == "bluesheet":
-            bluesheet_page = tk.Label(self.main_frame, text="Bluesheet Page", font=("Arial", 24), bg="white")
-            bluesheet_page.pack(pady=20)
+            content = tk.Label(self.main_frame, text="This is the Bluesheet Page content", font=("Arial", 18), bg="white")
+            content.pack(pady=20)
         elif page == "upload":
-            upload_page = tk.Label(self.main_frame, text="Upload Page", font=("Arial", 24), bg="white")
-            upload_page.pack(pady=20)
+            content = tk.Label(self.main_frame, text="This is the Upload Page content", font=("Arial", 18), bg="white")
+            content.pack(pady=20)
         elif page == "delete":
-            delete_page = tk.Label(self.main_frame, text="Delete Page", font=("Arial", 24), bg="white")
-            delete_page.pack(pady=20)
+            content = tk.Label(self.main_frame, text="This is the Delete Page content", font=("Arial", 18), bg="white")
+            content.pack(pady=20)
 
 if __name__ == "__main__":
     app = App()
