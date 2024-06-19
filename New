@@ -32,21 +32,35 @@ class App(tk.Tk):
         self.background_menuframe = Label(self.menu_frame)
         self.background_menuframe.place(x=0, y=0, relwidth=1, relheight=1)
 
+        self.main_frame = tk.Frame(self, bg="white")
+        self.main_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+
         self.create_buttons()
+        self.show_page("main")
 
     def create_buttons(self):
         buttons_info = [
-            ("Bluesheet", lambda: self.indicate(self.page1_indicate, "bluesheet")),
-            # Add more buttons here as needed
+            ("Main", lambda: self.indicate(self.page1_indicate, "main")),
+            ("Bluesheet", lambda: self.indicate(self.page2_indicate, "bluesheet")),
+            ("Upload", lambda: self.indicate(self.page3_indicate, "upload")),
+            ("Delete", lambda: self.indicate(self.page4_indicate, "delete")),
         ]
         
+        self.indicators = []
+
         for index, (text, command) in enumerate(buttons_info):
             btn = tk.Button(self.menu_frame, text=text, font=("Bold", 18), fg="white", bd=0, bg="#031f3f",
                             padx=56, activebackground="#124edb", command=command)
-            btn.place(x=10, y=100 + index * 60)
+            btn.grid(row=index, column=1, pady=20, padx=(10, 0), sticky="w")
 
-        self.page1_indicate = tk.Label(self.menu_frame, text="", bg="#124e6b")
-        self.page1_indicate.place(x=3, y=100, width=5, height=43)
+            indicator = tk.Label(self.menu_frame, text="", bg="#124e6b")
+            indicator.grid(row=index, column=0, sticky="ns", pady=20)
+            self.indicators.append(indicator)
+
+        self.page1_indicate = self.indicators[0]
+        self.page2_indicate = self.indicators[1]
+        self.page3_indicate = self.indicators[2]
+        self.page4_indicate = self.indicators[3]
 
     def delete_pages(self):
         for frame in self.main_frame.winfo_children():
@@ -56,11 +70,25 @@ class App(tk.Tk):
         self.hide_indicators()
         lb.config(bg="white")
         self.delete_pages()
-        # Add logic to show the new page content
+        self.show_page(page)
 
     def hide_indicators(self):
-        self.page1_indicate.config(bg="#124e6b")
-        # Hide other indicators as needed
+        for indicator in self.indicators:
+            indicator.config(bg="#124e6b")
+
+    def show_page(self, page):
+        if page == "main":
+            main_page = tk.Label(self.main_frame, text="Main Page", font=("Arial", 24), bg="white")
+            main_page.pack(pady=20)
+        elif page == "bluesheet":
+            bluesheet_page = tk.Label(self.main_frame, text="Bluesheet Page", font=("Arial", 24), bg="white")
+            bluesheet_page.pack(pady=20)
+        elif page == "upload":
+            upload_page = tk.Label(self.main_frame, text="Upload Page", font=("Arial", 24), bg="white")
+            upload_page.pack(pady=20)
+        elif page == "delete":
+            delete_page = tk.Label(self.main_frame, text="Delete Page", font=("Arial", 24), bg="white")
+            delete_page.pack(pady=20)
 
 if __name__ == "__main__":
     app = App()
