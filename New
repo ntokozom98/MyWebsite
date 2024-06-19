@@ -1,0 +1,67 @@
+from tkinter import *
+import tkinter as tk
+from tkinter import ttk, messagebox
+from BS_Upload import upload_file
+from Delete_Func import delete
+
+try:
+    from ctypes import windll
+    windll.shcore.SetProcessDpiAwareness(1)
+except:
+    pass
+
+class App(tk.Tk):
+    def __init__(self):
+        super().__init__()
+        self.title("Test")
+        app_width = 1500
+        app_height = 720
+        screen_width = self.winfo_screenwidth()
+        screen_height = self.winfo_screenheight()
+        x = (screen_width / 2) - (app_width / 2)
+        y = (screen_height / 3) - (app_height / 3)
+        self.geometry(f"{app_width}x{app_height}+{int(x)}+{int(y)}")
+        self.minsize(width=1300, height=720)
+        self.maxsize(width=1920, height=1080)
+
+        self.menu_frame = tk.Frame(self, bg="#124e6b", highlightbackground="black", highlightthickness=1)
+        self.menu_frame.pack(side=tk.LEFT, fill=tk.Y)
+        self.menu_frame.pack_propagate(False)
+        self.menu_frame.configure(width=300)
+
+        self.background_menuframe = Label(self.menu_frame)
+        self.background_menuframe.place(x=0, y=0, relwidth=1, relheight=1)
+
+        self.create_buttons()
+
+    def create_buttons(self):
+        buttons_info = [
+            ("Bluesheet", lambda: self.indicate(self.page1_indicate, "bluesheet")),
+            # Add more buttons here as needed
+        ]
+        
+        for index, (text, command) in enumerate(buttons_info):
+            btn = tk.Button(self.menu_frame, text=text, font=("Bold", 18), fg="white", bd=0, bg="#031f3f",
+                            padx=56, activebackground="#124edb", command=command)
+            btn.place(x=10, y=100 + index * 60)
+
+        self.page1_indicate = tk.Label(self.menu_frame, text="", bg="#124e6b")
+        self.page1_indicate.place(x=3, y=100, width=5, height=43)
+
+    def delete_pages(self):
+        for frame in self.main_frame.winfo_children():
+            frame.destroy()
+
+    def indicate(self, lb, page):
+        self.hide_indicators()
+        lb.config(bg="white")
+        self.delete_pages()
+        # Add logic to show the new page content
+
+    def hide_indicators(self):
+        self.page1_indicate.config(bg="#124e6b")
+        # Hide other indicators as needed
+
+if __name__ == "__main__":
+    app = App()
+    app.mainloop()
